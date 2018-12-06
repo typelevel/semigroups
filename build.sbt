@@ -4,7 +4,7 @@ lazy val core = project.in(file("."))
       name := "semigroups"
     )
 
-val catsV = "1.4.0"
+val catsV = "1.5.0"
 val specs2V = "4.3.5"
 
 val kindProjectorV = "0.9.8"
