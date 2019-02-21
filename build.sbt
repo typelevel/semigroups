@@ -1,11 +1,23 @@
-lazy val core = project.in(file("."))
-    .settings(commonSettings, releaseSettings)
-    .settings(
-      name := "semigroups"
-    )
+
+import sbtcrossproject.CrossPlugin.autoImport.{crossProject, CrossType}
+
+lazy val semigroups = project.in(file("."))
+  .settings(commonSettings, releaseSettings, skipOnPublishSettings)
+  .aggregate(coreJVM, coreJS)
+
+
+lazy val core = crossProject(JSPlatform, JVMPlatform)
+  .crossType(CrossType.Pure)
+  .in(file("core"))
+  .settings(commonSettings, releaseSettings)
+  .settings(
+    name := "semigroups"
+  )
+
+lazy val coreJVM = core.jvm
+lazy val coreJS = core.js
 
 val catsV = "1.6.0"
-val specs2V = "4.3.5"
 
 val kindProjectorV = "0.9.9"
 val betterMonadicForV = "0.3.0-M4"
@@ -15,24 +27,19 @@ lazy val contributors = Seq(
   "ChristopherDavenport" -> "Christopher Davenport"
 )
 
-// check for library updates whenever the project is [re]load
-onLoad in Global := { s =>
-  "dependencyUpdates" :: s
-}
-
 // General Settings
 lazy val commonSettings = Seq(
   organization := "io.chrisdavenport",
 
-  scalaVersion := "2.12.7",
+  scalaVersion := "2.12.8",
   crossScalaVersions := Seq(scalaVersion.value, "2.11.12"),
   scalacOptions += "-Yrangepos",
 
   addCompilerPlugin("org.spire-math" % "kind-projector" % kindProjectorV cross CrossVersion.binary),
   addCompilerPlugin("com.olegpy" %% "better-monadic-for" % betterMonadicForV),
   libraryDependencies ++= Seq(
-    "org.typelevel"               %% "cats-core"                  % catsV,
-    "org.typelevel"               %% "cats-testkit"               % catsV         % Test
+    "org.typelevel"               %%% "cats-core"                  % catsV,
+    "org.typelevel"               %%% "cats-testkit"               % catsV         % Test
   )
 )
 
