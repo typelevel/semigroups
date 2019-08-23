@@ -2,7 +2,7 @@ package io.chrisdavenport.semigroups
 
 import cats._
 import cats.implicits._
-import cats.kernel.CommutativeSemigroup
+import cats.kernel.Semilattice
 
 final case class Min[A](getMin: A) extends AnyVal
 object Min extends MinInstances {
@@ -11,7 +11,7 @@ object Min extends MinInstances {
 }
 
 private[semigroups] trait MinInstances extends MinInstances1 {
-  implicit def orderedMinSemigroup[A: Order]: CommutativeSemigroup[Min[A]] = new CommutativeSemigroup[Min[A]]{
+  implicit def orderedMinSemilattice[A: Order]: Semilattice[Min[A]] = new Semilattice[Min[A]]{
     def combine(x: Min[A], y: Min[A]): Min[A] = 
       Min(Order.min(x.getMin, y.getMin))
   }

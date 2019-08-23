@@ -7,7 +7,7 @@ import cats.laws.discipline._
 
 class MinTests extends CatsSuite with SemigroupsArbitraries {
   checkAll("Min", OrderTests[Min[Int]].order)
-  checkAll("Min", SemigroupTests[Min[Int]].semigroup)
+  checkAll("Min", SemilatticeTests[Min[Int]].semilattice)
   checkAll("Min", MonadTests[Min].monad)
   checkAll("Min", NonEmptyTraverseTests[Min].nonEmptyTraverse[Option, Int, Int, Int, Int, Option, Option])
   checkAll("Min", DistributiveTests[Min].distributive[Int, Int, Int, Option, Id])
