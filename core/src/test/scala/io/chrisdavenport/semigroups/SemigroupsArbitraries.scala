@@ -18,4 +18,7 @@ trait SemigroupsArbitraries {
   implicit def minArbitary[A: Arbitrary]: Arbitrary[Min[A]] =
     Arbitrary(Arbitrary.arbitrary[A].map(Min(_)))
 
+  implicit def intersectArbitrary[A: Arbitrary]: Arbitrary[Intersect[A]] =
+    Arbitrary(Arbitrary.arbitrary[Set[A]].map(Intersect(_)))
+
 }
