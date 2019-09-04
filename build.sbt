@@ -17,10 +17,11 @@ lazy val core = crossProject(JSPlatform, JVMPlatform)
 lazy val coreJVM = core.jvm
 lazy val coreJS = core.js
 
-val catsV = "1.6.1"
+val catsV = "2.0.0-RC1"
+val disciplineScalatestV = "1.0.0-M1"
 
-val kindProjectorV = "0.9.10"
-val betterMonadicForV = "0.3.0"
+val kindProjectorV = "0.10.0"
+val betterMonadicForV = "0.3.1"
 
 
 lazy val contributors = Seq(
@@ -35,11 +36,12 @@ lazy val commonSettings = Seq(
   crossScalaVersions := Seq(scalaVersion.value, "2.11.12"),
   scalacOptions += "-Yrangepos",
 
-  addCompilerPlugin("org.spire-math" % "kind-projector" % kindProjectorV cross CrossVersion.binary),
+  addCompilerPlugin("org.typelevel" % "kind-projector" % kindProjectorV cross CrossVersion.binary),
   addCompilerPlugin("com.olegpy" %% "better-monadic-for" % betterMonadicForV),
   libraryDependencies ++= Seq(
     "org.typelevel"               %%% "cats-core"                  % catsV,
-    "org.typelevel"               %%% "cats-testkit"               % catsV         % Test
+    "org.typelevel"               %%% "cats-laws"                  % catsV                % Test,
+    "org.typelevel"               %%% "discipline-scalatest"       % disciplineScalatestV % Test
   )
 )
 

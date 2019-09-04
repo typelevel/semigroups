@@ -1,14 +1,17 @@
 package io.chrisdavenport.semigroups
 
 import cats._
-import cats.tests.CatsSuite
 import cats.kernel.laws.discipline._
 import cats.laws.discipline._
+import cats.implicits._
+import org.scalatest.funsuite.AnyFunSuite
+import org.typelevel.discipline.scalatest.Discipline
+import org.scalatest.Matchers
 
-class MaxTests extends CatsSuite with SemigroupsArbitraries {
+class MaxTests extends AnyFunSuite with SemigroupsArbitraries with Discipline with Matchers {
   checkAll("Max", OrderTests[Max[Int]].order)
-  checkAll("Max", SemigroupTests[Max[Int]].semigroup)
-  checkAll("Max", MonadTests[Max].monad)
+  checkAll("Max", BoundedSemilatticeTests[Max[Int]].boundedSemilattice)
+  checkAll("Max", MonadTests[Max].monad[Int, Int, Int])
   checkAll("Max", NonEmptyTraverseTests[Max].nonEmptyTraverse[Option, Int, Int, Int, Int, Option, Option])
   checkAll("Max", DistributiveTests[Max].distributive[Int, Int, Int, Option, Id])
 
@@ -18,9 +21,9 @@ class MaxTests extends CatsSuite with SemigroupsArbitraries {
   }
 
   test("returns Larger"){
-      val first = Max(1)
-      val second = Max(3)
-      first |+| second shouldEqual second
+    val first = Max(1)
+    val second = Max(3)
+    first |+| second shouldEqual second
   }
 
 }
