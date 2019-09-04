@@ -2,7 +2,8 @@ package io.chrisdavenport.semigroups
 
 import cats._
 import cats.implicits._
-import cats.kernel.CommutativeSemigroup
+import cats.kernel.Semilattice
+
 
 final case class Max[A](getMax: A) extends AnyVal
 object Max extends MaxInstances {
@@ -11,7 +12,7 @@ object Max extends MaxInstances {
 }
 
 private[semigroups] trait MaxInstances extends MaxInstances1 {
-  implicit def orderedMaxSemigroup[A: Order]: CommutativeSemigroup[Max[A]] = new CommutativeSemigroup[Max[A]]{
+  implicit def orderedMaxSemilattice[A: Order]: Semilattice[Max[A]] = new Semilattice[Max[A]]{
     def combine(x: Max[A], y: Max[A]): Max[A] = Max(Order[A].max(x.getMax, y.getMax))
   }
 }
