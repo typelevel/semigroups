@@ -3,6 +3,8 @@ package io.chrisdavenport.semigroups
 import cats._
 import cats.implicits._
 import cats.kernel.Semilattice
+import cats.kernel.LowerBounded
+import cats.kernel.BoundedSemilattice
 
 
 final case class Max[A](getMax: A) extends AnyVal
@@ -12,8 +14,9 @@ object Max extends MaxInstances {
 }
 
 private[semigroups] trait MaxInstances extends MaxInstances1 {
-  implicit def orderedMaxSemilattice[A: Order]: Semilattice[Max[A]] = new Semilattice[Max[A]]{
+  implicit def orderedMaxBoundedSemilattice[A: LowerBounded: Order]: BoundedSemilattice[Max[A]] = new BoundedSemilattice[Max[A]] {
     def combine(x: Max[A], y: Max[A]): Max[A] = Max(Order[A].max(x.getMax, y.getMax))
+    def empty: Max[A] = Max(LowerBounded[A].minBound)
   }
 }
 
@@ -24,6 +27,10 @@ private[semigroups] trait MaxInstances1  {
 
   implicit def maxOrder[A: Order]: Order[Max[A]] =
     Order.by(_.getMax)
+
+  implicit def orderedMaxSemilattice[A: Order]: Semilattice[Max[A]] = new Semilattice[Max[A]]{
+    def combine(x: Max[A], y: Max[A]): Max[A] = Max(Order[A].max(x.getMax, y.getMax))
+  }
 
   implicit val maxInstances: CommutativeMonad[Max] with NonEmptyTraverse[Max] with Distributive[Max] = 
     new CommutativeMonad[Max] with NonEmptyTraverse[Max] with Distributive[Max] {

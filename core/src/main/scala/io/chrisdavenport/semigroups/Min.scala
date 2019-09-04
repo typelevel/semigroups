@@ -2,7 +2,7 @@ package io.chrisdavenport.semigroups
 
 import cats._
 import cats.implicits._
-import cats.kernel.Semilattice
+import cats.kernel.{Semilattice, BoundedSemilattice, UpperBounded}
 
 final case class Min[A](getMin: A) extends AnyVal
 object Min extends MinInstances {
@@ -11,9 +11,9 @@ object Min extends MinInstances {
 }
 
 private[semigroups] trait MinInstances extends MinInstances1 {
-  implicit def orderedMinSemilattice[A: Order]: Semilattice[Min[A]] = new Semilattice[Min[A]]{
-    def combine(x: Min[A], y: Min[A]): Min[A] = 
-      Min(Order.min(x.getMin, y.getMin))
+  implicit def orderedMinBoundedSemilattice[A: UpperBounded: Order]: BoundedSemilattice[Min[A]] = new BoundedSemilattice[Min[A]] {
+    def combine(x: Min[A], y: Min[A]): Min[A] = Min(Order[A].min(x.getMin, y.getMin))
+    def empty: Min[A] = Min(UpperBounded[A].maxBound)
   }
 }
 
@@ -24,6 +24,12 @@ private[semigroups] trait MinInstances1  {
 
   implicit def minOrder[A: Order]: Order[Min[A]] =
     Order.by(_.getMin)
+
+  
+  implicit def orderedMinSemilattice[A: Order]: Semilattice[Min[A]] = new Semilattice[Min[A]]{
+    def combine(x: Min[A], y: Min[A]): Min[A] = 
+      Min(Order.min(x.getMin, y.getMin))
+  }
 
   implicit val minInstances: CommutativeMonad[Min] with NonEmptyTraverse[Min] with Distributive[Min] = 
     new CommutativeMonad[Min] with NonEmptyTraverse[Min] with Distributive[Min] {
