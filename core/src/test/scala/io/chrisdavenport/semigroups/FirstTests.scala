@@ -7,7 +7,7 @@ import cats.laws.discipline._
 
 class FirstTests extends CatsSuite with SemigroupsArbitraries {
   checkAll("First", OrderTests[First[Int]].order)
-  checkAll("First", SemigroupTests[First[Int]].semigroup)
+  checkAll("First", BandTests[First[Int]].band)
   checkAll("First", MonadTests[First].monad)
   checkAll("First", NonEmptyTraverseTests[First].nonEmptyTraverse[Option, Int, Int, Int, Int, Option, Option])
   checkAll("First", DistributiveTests[First].distributive[Int, Int, Int, Option, Id])
