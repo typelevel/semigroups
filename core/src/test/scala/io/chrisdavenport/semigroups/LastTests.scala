@@ -10,7 +10,7 @@ import org.scalatest.Matchers
 
 class LastTests extends AnyFunSuite with SemigroupsArbitraries with Discipline with Matchers {
   checkAll("Last", OrderTests[Last[Int]].order)
-  checkAll("Last", SemigroupTests[Last[Int]].semigroup)
+  checkAll("Last", BandTests[Last[Int]].band)
   checkAll("Last", MonadTests[Last].monad[Int, Int, Int])
   checkAll("Last", NonEmptyTraverseTests[Last].nonEmptyTraverse[Option, Int, Int, Int, Int, Option, Option])
   checkAll("Last", DistributiveTests[Last].distributive[Int, Int, Int, Option, Id])

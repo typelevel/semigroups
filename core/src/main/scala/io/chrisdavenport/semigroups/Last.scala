@@ -2,12 +2,13 @@ package io.chrisdavenport.semigroups
 
 import cats._
 import cats.implicits._
+import cats.kernel.Band
 
 final case class Last[A](getLast: A) extends AnyVal
 object Last extends LastInstances
 
 private[semigroups] trait LastInstances extends LastInstances1 {
-  implicit def lastSemigroup[A]: Semigroup[Last[A]] = new Semigroup[Last[A]]{
+  implicit def lastBand[A]: Band[Last[A]] = new Band[Last[A]]{
     def combine(x: Last[A], y: Last[A]): Last[A] = y
   }
 }
