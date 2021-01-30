@@ -5,10 +5,11 @@ import cats.kernel.laws.discipline._
 import cats.laws.discipline._
 import cats.implicits._
 import org.scalatest.funsuite.AnyFunSuite
-import org.typelevel.discipline.scalatest.Discipline
-import org.scalatest.Matchers
+import org.typelevel.discipline.scalatest.FunSuiteDiscipline
+import org.scalatest.matchers.should.Matchers
+import org.scalatestplus.scalacheck.ScalaCheckDrivenPropertyChecks
 
-class DualTests extends AnyFunSuite with SemigroupsArbitraries with Discipline with Matchers {
+class DualTests extends AnyFunSuite with SemigroupsArbitraries with FunSuiteDiscipline with Matchers with ScalaCheckDrivenPropertyChecks {
   checkAll("Dual", OrderTests[Dual[Int]].order)
   checkAll("Dual", SemigroupTests[Dual[Int]].semigroup)
   checkAll("Dual", MonadTests[Dual].monad[Int, Int, Int])

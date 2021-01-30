@@ -5,10 +5,11 @@ import cats.kernel.laws.discipline._
 import cats.laws.discipline._
 import cats.implicits._
 import org.scalatest.funsuite.AnyFunSuite
-import org.typelevel.discipline.scalatest.Discipline
-import org.scalatest.Matchers
+import org.typelevel.discipline.scalatest.FunSuiteDiscipline
+import org.scalatest.matchers.should.Matchers
+import org.scalatestplus.scalacheck.ScalaCheckDrivenPropertyChecks
 
-class LastTests extends AnyFunSuite with SemigroupsArbitraries with Discipline with Matchers {
+class LastTests extends AnyFunSuite with SemigroupsArbitraries with FunSuiteDiscipline with Matchers with ScalaCheckDrivenPropertyChecks {
   checkAll("Last", OrderTests[Last[Int]].order)
   checkAll("Last", BandTests[Last[Int]].band)
   checkAll("Last", MonadTests[Last].monad[Int, Int, Int])

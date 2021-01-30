@@ -4,10 +4,11 @@ import cats.kernel.laws.discipline._
 import cats.laws.discipline._
 import cats.implicits._
 import org.scalatest.funsuite.AnyFunSuite
-import org.typelevel.discipline.scalatest.Discipline
-import org.scalatest.Matchers
+import org.typelevel.discipline.scalatest.FunSuiteDiscipline
+import org.scalatest.matchers.should.Matchers
+import org.scalatestplus.scalacheck.ScalaCheckDrivenPropertyChecks
 
-class IntersectTests extends AnyFunSuite with SemigroupsArbitraries with Discipline with Matchers {
+class IntersectTests extends AnyFunSuite with SemigroupsArbitraries with FunSuiteDiscipline with Matchers with ScalaCheckDrivenPropertyChecks{
   checkAll("Intersect", EqTests[Intersect[Int]].eqv)
   checkAll("Intersect", SemilatticeTests[Intersect[Int]].semilattice)
   checkAll("Intersect", MonoidKTests[Intersect].monoidK[Int])
