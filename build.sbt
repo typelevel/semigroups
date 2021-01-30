@@ -17,11 +17,13 @@ lazy val core = crossProject(JSPlatform, JVMPlatform)
 lazy val coreJVM = core.jvm
 lazy val coreJS = core.js
 
-val catsV = "2.0.0"
-val disciplineScalatestV = "1.0.0-M1"
+val catsV = "2.3.1"
+val disciplineScalatestV = "2.1.1"
 
 val kindProjectorV = "0.10.3"
 val betterMonadicForV = "0.3.1"
+
+val scalaTestV = "3.2.2"
 
 
 lazy val contributors = Seq(
@@ -33,7 +35,7 @@ lazy val commonSettings = Seq(
   organization := "io.chrisdavenport",
 
   scalaVersion := "2.12.8",
-  crossScalaVersions := Seq("2.13.0", scalaVersion.value, "2.11.12"),
+  crossScalaVersions := Seq("2.13.0", scalaVersion.value),
   scalacOptions += "-Yrangepos",
 
   addCompilerPlugin("org.typelevel" % "kind-projector" % kindProjectorV cross CrossVersion.binary),
@@ -41,7 +43,8 @@ lazy val commonSettings = Seq(
   libraryDependencies ++= Seq(
     "org.typelevel"               %%% "cats-core"                  % catsV,
     "org.typelevel"               %%% "cats-laws"                  % catsV                % Test,
-    "org.typelevel"               %%% "discipline-scalatest"       % disciplineScalatestV % Test
+    "org.typelevel"               %%% "discipline-scalatest"       % disciplineScalatestV % Test,
+    "org.scalatest"               %%%  "scalatest"                 % scalaTestV           % Test
   )
 )
 
