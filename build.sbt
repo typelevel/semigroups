@@ -23,7 +23,7 @@ val disciplineScalatestV = "2.1.1"
 val kindProjectorV = "0.10.3"
 val betterMonadicForV = "0.3.1"
 
-val scalaTestV = "3.2.3"
+val scalaTestV = "3.2.4"
 
 
 lazy val contributors = Seq(
