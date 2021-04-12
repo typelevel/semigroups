@@ -1,5 +1,12 @@
+val Scala212 = "2.12.12"
+val Scala213 = "2.13.5"
 
-import sbtcrossproject.CrossPlugin.autoImport.{crossProject, CrossType}
+ThisBuild / crossScalaVersions := Seq(Scala212, Scala213)
+ThisBuild / scalaVersion := Scala212
+ThisBuild / githubWorkflowPublishTargetBranches := Seq()
+ThisBuild / githubWorkflowJavaVersions := Seq("adopt@1.8")
+ThisBuild / githubWorkflowArtifactUpload := false
+ThisBuild / githubWorkflowBuild := Seq(WorkflowStep.Sbt(List("test"), name = Some("Validation")))
 
 lazy val semigroups = project.in(file("."))
   .settings(commonSettings, releaseSettings, skipOnPublishSettings)
@@ -86,7 +93,7 @@ lazy val releaseSettings = {
           password
         )
     ).toSeq,
-    publishArtifact in Test := false,
+    Test / publishArtifact := false,
     releasePublishArtifactsAction := PgpKeys.publishSigned.value,
     scmInfo := Some(
       ScmInfo(
@@ -119,10 +126,10 @@ lazy val mimaSettings = {
 
   def semverBinCompatVersions(major: Int, minor: Int, patch: Int): Set[(Int, Int, Int)] = {
     val majorVersions: List[Int] = List(major)
-    val minorVersions : List[Int] = 
+    val minorVersions : List[Int] =
       if (major >= 1) Range(0, minor).inclusive.toList
       else List(minor)
-    def patchVersions(currentMinVersion: Int): List[Int] = 
+    def patchVersions(currentMinVersion: Int): List[Int] =
       if (minor == 0 && patch == 0) List.empty[Int]
       else if (currentMinVersion != minor) List(0)
       else Range(0, patch - 1).inclusive.toList
@@ -154,7 +161,7 @@ lazy val mimaSettings = {
     mimaFailOnProblem := mimaVersions(version.value).toList.headOption.isDefined,
     mimaPreviousArtifacts := (mimaVersions(version.value) ++ extraVersions)
       .filterNot(excludedVersions.contains(_))
-      .map{v => 
+      .map{v =>
         val moduleN = moduleName.value + "_" + scalaBinaryVersion.value.toString
         organization.value % moduleN % v
       },
@@ -167,7 +174,7 @@ lazy val mimaSettings = {
 }
 
 lazy val skipOnPublishSettings = Seq(
-  skip in publish := true,
+  publish / skip := true,
   publish := (()),
   publishLocal := (()),
   publishArtifact := false,
