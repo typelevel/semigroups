@@ -24,7 +24,7 @@ lazy val core = crossProject(JSPlatform, JVMPlatform)
 lazy val coreJVM = core.jvm
 lazy val coreJS = core.js
 
-val catsV = "2.5.0"
+val catsV = "2.6.0"
 val disciplineScalatestV = "2.1.3"
 
 val kindProjectorV = "0.10.3"
