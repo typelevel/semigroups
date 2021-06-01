@@ -42,7 +42,7 @@ lazy val commonSettings = Seq(
   organization := "io.chrisdavenport",
 
   scalaVersion := "2.12.14",
-  crossScalaVersions := Seq("2.13.5", scalaVersion.value),
+  crossScalaVersions := Seq("2.13.6", scalaVersion.value),
   scalacOptions += "-Yrangepos",
 
   addCompilerPlugin("org.typelevel" % "kind-projector" % kindProjectorV cross CrossVersion.binary),
