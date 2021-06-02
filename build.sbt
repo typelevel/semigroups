@@ -1,5 +1,5 @@
 val Scala212 = "2.12.12"
-val Scala213 = "2.13.5"
+val Scala213 = "2.13.6"
 
 ThisBuild / crossScalaVersions := Seq(Scala212, Scala213)
 ThisBuild / scalaVersion := Scala212
@@ -42,7 +42,7 @@ lazy val commonSettings = Seq(
   organization := "io.chrisdavenport",
 
   scalaVersion := "2.12.14",
-  crossScalaVersions := Seq("2.13.5", scalaVersion.value),
+  crossScalaVersions := Seq("2.13.6", scalaVersion.value),
   scalacOptions += "-Yrangepos",
 
   addCompilerPlugin("org.typelevel" % "kind-projector" % kindProjectorV cross CrossVersion.binary),
